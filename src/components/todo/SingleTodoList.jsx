@@ -49,7 +49,7 @@ function SingleTodoList(props) {
   ));
 
   return (
-    <div className="rounded-lg overflow-hidden border border-gray-300">
+    <div className="rounded-lg overflow-hidden border border-gray-300 h-[fit-content]">
       <div className="bg-gray-100 px-4 py-2 border-b border-gray-300">
         <div className="w-full flex justify-between items-center bg-gray-200 rounded-lg border border-gray-300 h-[40px]">
           <Checkbox
