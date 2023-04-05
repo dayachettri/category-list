@@ -2,19 +2,14 @@ import { createContext, useState } from 'react';
 
 const TodoContext = createContext();
 
-const todoList = [
-  { id: '1', title: 'clothes', todoItems: [{ id: '21', title: 'happilo' }] },
-];
-
 function TodoProvider({ children }) {
   const [todoList, setTodoList] = useState([]);
   const [currentCheckedList, setCurrentCheckedList] = useState(null);
   const [currentCheckedItemList, setCurrentCheckedItemList] = useState(null);
   const [currentCheckedItem, setCurrentCheckedItem] = useState(null);
+  console.log(todoList);
 
-  console.log(currentCheckedItem, currentCheckedItemList);
-
-  const deleteItemById = (itemId, todoList) => {
+  const deleteItemById = itemId => {
     const listIndex = todoList.findIndex(list =>
       list.todoItems.some(item => item.id === itemId)
     );
@@ -26,10 +21,8 @@ function TodoProvider({ children }) {
     if (itemIndex !== -1) {
       const updatedTodoList = [...todoList];
       updatedTodoList[listIndex].todoItems.splice(itemIndex, 1);
-      return updatedTodoList;
+      setTodoList(updatedTodoList);
     }
-
-    return todoList;
   };
 
   const updateItemById = (itemId, newObject) => {

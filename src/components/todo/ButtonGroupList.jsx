@@ -3,7 +3,30 @@ import { CgAddR } from 'react-icons/cg';
 import { BiEdit } from 'react-icons/bi';
 import { TbSquareMinus } from 'react-icons/tb';
 
+//custom hooks
+import useTodoContext from '../../hooks/useTodoContext';
+
+// library imports
+import { toast } from 'react-toastify';
+
 function ButtonGroupList({ onCreateOpen, onUpdateOpen }) {
+  const { currentCheckedItem, deleteItemById } = useTodoContext();
+
+  const handleItemDelete = () => {
+    if (!currentCheckedItem) {
+      toast.error('No item checked', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+      return;
+    } else {
+      deleteItemById(currentCheckedItem.id);
+      toast.success('Deleted a item', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    }
+  };
   return (
     <div>
       <div className="flex text-white text-2xl">
@@ -17,9 +40,12 @@ function ButtonGroupList({ onCreateOpen, onUpdateOpen }) {
           onClick={onUpdateOpen}
           className="px-3 py-2 bg-yellow-400 hover:bg-yellow-500 ease-in duration-100"
         >
-          <BiEdit o />
+          <BiEdit />
         </button>
-        <button className="px-3 py-2 bg-red-400 rounded-r-lg hover:bg-red-500 ease-in duration-100">
+        <button
+          onClick={handleItemDelete}
+          className="px-3 py-2 bg-red-400 rounded-r-lg hover:bg-red-500 ease-in duration-100"
+        >
           <TbSquareMinus />
         </button>
       </div>
