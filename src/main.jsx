@@ -5,12 +5,15 @@ import './index.css';
 
 // Provider imports
 import { TodoProvider } from './context/todo/TodoContext';
+import { AuthProvider } from './context/auth/AuthContext';
 
 const el = document.getElementById('root');
 const root = ReactDOM.createRoot(el);
 
 root.render(
-  <TodoProvider>
-    <App />
-  </TodoProvider>
+  <AuthProvider>
+    <TodoProvider>
+      <App />
+    </TodoProvider>
+  </AuthProvider>
 );

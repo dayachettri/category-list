@@ -1,5 +1,9 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+
+// Layout imports
 import RootLayout from './layout/RootLayout';
+
+//Page imports
 import TodoDashboard from './pages/TodoDashboard';
 
 const router = createBrowserRouter([
