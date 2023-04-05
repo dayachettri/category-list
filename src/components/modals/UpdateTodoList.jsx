@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 
 // library imports
 import { RxCross1 } from 'react-icons/rx';
+import { toast } from 'react-toastify';
 
 // custom hooks
 import useTodoContext from '../../hooks/useTodoContext';
@@ -30,10 +31,19 @@ function UpdateTodoList({ onUpdateOpen }) {
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (!values.title || !values.dueDate || !values.id) return;
-    else {
+    if (!values.title || !values.dueDate || !values.id) {
+      toast.error('Missing input fields', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+      return;
+    } else {
       updateListById(currentCheckedList.id, values);
       onUpdateOpen();
+      toast.success('Updated a list', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
     }
   };
 

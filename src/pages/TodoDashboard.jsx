@@ -5,6 +5,9 @@ import Bottombar from '../components/todo/Bottombar';
 import Navbar from '../components/todo/Navbar';
 import SingleTodoList from '../components/todo/SingleTodoList';
 
+// library imports
+import { toast } from 'react-toastify';
+
 // hooks
 import { useState } from 'react';
 
@@ -22,7 +25,14 @@ function TodoDashboard() {
   };
 
   const handleUpdateTodoListOpen = () => {
-    if (!currentCheckedList) return;
+    if (!currentCheckedList) {
+      toast.error('No list checked', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+      return;
+    }
+
     setUpdateTodoListOpen(!updateTodoListOpen);
   };
 

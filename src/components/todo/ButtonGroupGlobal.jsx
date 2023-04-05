@@ -3,6 +3,7 @@
 import { CgAddR } from 'react-icons/cg';
 import { BiEdit } from 'react-icons/bi';
 import { TbSquareMinus } from 'react-icons/tb';
+import { toast } from 'react-toastify';
 
 // custom hooks
 import useTodoContext from '../../hooks/useTodoContext';
@@ -11,9 +12,19 @@ function ButtonGroupGlobal({ onCreateOpen, onUpdateOpen }) {
   const { currentCheckedList, deleteListById } = useTodoContext();
 
   const handleListDelete = () => {
-    if (!currentCheckedList) return;
-
-    deleteListById(currentCheckedList.id);
+    if (!currentCheckedList) {
+      toast.error('No list checked', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+      return;
+    } else {
+      deleteListById(currentCheckedList.id);
+      toast.success('Deleted a list', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+    }
   };
 
   return (

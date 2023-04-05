@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 
 // library imports
 import { RxCross1 } from 'react-icons/rx';
+import { toast } from 'react-toastify';
 
 // custom hooks
 import useTodoContext from '../../hooks/useTodoContext';
@@ -26,10 +27,19 @@ function CreateTodoList({ onCreateOpen }) {
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (!values.title || !values.dueDate) return;
-    else {
+    if (!values.title || !values.dueDate) {
+      toast.error('Missing input fields', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
+      return;
+    } else {
       createList(values);
       onCreateOpen();
+      toast.success('Created a list', {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 1000,
+      });
     }
   };
 
