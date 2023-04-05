@@ -3,7 +3,7 @@ import { CgAddR } from 'react-icons/cg';
 import { BiEdit } from 'react-icons/bi';
 import { TbSquareMinus } from 'react-icons/tb';
 
-function ButtonGroup() {
+function ButtonGroupList() {
   return (
     <div>
       <div className="flex text-white text-2xl">
@@ -21,4 +21,4 @@ function ButtonGroup() {
   );
 }
 
-export default ButtonGroup;
+export default ButtonGroupList;
