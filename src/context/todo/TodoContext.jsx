@@ -2,9 +2,118 @@ import { createContext, useState } from 'react';
 
 const TodoContext = createContext();
 
+const todoList = [
+  { id: '1', title: 'clothes', todoItems: [{ id: '21', title: 'happilo' }] },
+];
+
 function TodoProvider({ children }) {
   const [todoList, setTodoList] = useState([]);
   const [currentCheckedList, setCurrentCheckedList] = useState(null);
+  const [currentCheckedItemList, setCurrentCheckedItemList] = useState(null);
+  const [currentCheckedItem, setCurrentCheckedItem] = useState(null);
+
+  console.log(currentCheckedItem, currentCheckedItemList);
+
+  const deleteItemById = (itemId, todoList) => {
+    const listIndex = todoList.findIndex(list =>
+      list.todoItems.some(item => item.id === itemId)
+    );
+
+    const itemIndex = todoList[listIndex].todoItems.findIndex(
+      item => item.id === itemId
+    );
+
+    if (itemIndex !== -1) {
+      const updatedTodoList = [...todoList];
+      updatedTodoList[listIndex].todoItems.splice(itemIndex, 1);
+      return updatedTodoList;
+    }
+
+    return todoList;
+  };
+
+  const updateItemById = (itemId, newObject) => {
+    const listIndex = todoList.findIndex(list =>
+      list.todoItems.some(item => item.id === itemId)
+    );
+
+    const itemIndex = todoList[listIndex].todoItems.findIndex(
+      item => item.id === itemId
+    );
+
+    if (itemIndex !== -1) {
+      const updatedTodoList = [...todoList];
+      updatedTodoList[listIndex].todoItems[itemIndex] = {
+        ...updatedTodoList[listIndex].todoItems[itemIndex],
+        ...newObject,
+      };
+      return updatedTodoList;
+    }
+
+    return todoList;
+  };
+
+  const updateCurrentCheckedItemAndList = (itemId, listId, boolean) => {
+    const updatedTodoList = todoList.map(list => {
+      if (list.id === listId) {
+        const updatedTodoItems = list.todoItems.map(item => {
+          if (item.id === itemId) {
+            item.checked = boolean;
+          } else {
+            item.checked = false;
+          }
+          return item;
+        });
+        return {
+          ...list,
+          todoItems: updatedTodoItems,
+        };
+      } else {
+        return {
+          ...list,
+          todoItems: list.todoItems.map(item => {
+            return {
+              ...item,
+              checked: false,
+            };
+          }),
+        };
+      }
+    });
+
+    const updatedItem = updatedTodoList
+      .flatMap(list => list.todoItems)
+      .find(item => item.id === itemId && item.checked === true);
+
+    const updatedList = updatedTodoList.find(list => list.id === listId);
+
+    setCurrentCheckedItemList(updatedList || null);
+    setCurrentCheckedItem(updatedItem || null);
+  };
+
+  const createItem = (id, object) => {
+    const index = todoList.findIndex(list => list.id === id);
+
+    if (index !== -1) {
+      const updatedTodoList = [
+        ...todoList.slice(0, index),
+        {
+          ...todoList[index],
+          todoItems: [
+            ...todoList[index].todoItems,
+            {
+              id: self.crypto.randomUUID(),
+              checked: false,
+              completed: false,
+              ...object,
+            },
+          ],
+        },
+        ...todoList.slice(index + 1),
+      ];
+      setTodoList(updatedTodoList);
+    }
+  };
 
   const createList = object => {
     const updatedList = [
@@ -13,7 +122,7 @@ function TodoProvider({ children }) {
         ...object,
         id: self.crypto.randomUUID(),
         checked: false,
-        selected: false,
+        completed: false,
         todoItems: [],
       },
     ];
@@ -57,7 +166,13 @@ function TodoProvider({ children }) {
     updateListById,
     deleteListById,
     updateCurrentCheckedList,
+    updateCurrentCheckedItemAndList,
+    updateItemById,
+    deleteItemById,
     currentCheckedList,
+    currentCheckedItem,
+    currentCheckedItemList,
+    createItem,
   };
 
   return (

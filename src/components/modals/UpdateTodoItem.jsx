@@ -9,12 +9,18 @@ import { toast } from 'react-toastify';
 // custom hooks
 import useTodoContext from '../../hooks/useTodoContext';
 
-function CreateTodoList({ onCreateOpen }) {
-  const { createList } = useTodoContext();
-  const [values, setValues] = useState({ title: '', dueDate: '' });
+function UpdateTodoItem({ onUpdateOpen }) {
+  const { updateItemById, currentCheckedItem, currentCheckedItemList } =
+    useTodoContext();
+  const [values, setValues] = useState({
+    id: currentCheckedItem.id,
+    title: currentCheckedItem.title,
+    dueDate: currentCheckedItem.dueDate,
+  });
+  console.log(values);
 
   const handleToggle = () => {
-    onCreateOpen();
+    onUpdateOpen();
   };
 
   const handleChange = e => {
@@ -27,16 +33,16 @@ function CreateTodoList({ onCreateOpen }) {
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (!values.title || !values.dueDate) {
+    if (!values.title || !values.dueDate || !values.id) {
       toast.error('Missing input fields', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
       return;
     } else {
-      createList(values);
-      onCreateOpen();
-      toast.success('Created a list', {
+      updateItemById(currentCheckedItem.id, values);
+      onUpdateOpen();
+      toast.success('Updated a item', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
@@ -55,13 +61,21 @@ function CreateTodoList({ onCreateOpen }) {
           className="flex flex-col max-w-[40%] w-full bg-white rounded-lg overflow-hidden border border-gray-300 z-20"
         >
           <div className="flex justify-between items-center p-4 border-b border-gray-300">
-            <h1 className="text-xl font-[500]">Add Todo List</h1>
+            <h1 className="text-xl font-[500]">New Todo List</h1>
             <RxCross1
               onClick={handleToggle}
               className="text-lg text-gray-600 cursor-pointer"
             />
           </div>
           <div className="flex flex-col px-4 pt-4 pb-10 border-b border-gray-300">
+            <span className="text-lg mb-2">Todo Id</span>
+            <input
+              value={values.id}
+              onChange={handleChange}
+              name="id"
+              type="text"
+              className="border border-gray-300 h-[40px] rounded-lg outline-2 outline-gray-300 pl-2 mb-4"
+            />
             <span className="text-lg mb-2">Title</span>
             <input
               value={values.title}
@@ -83,7 +97,7 @@ function CreateTodoList({ onCreateOpen }) {
               type="submit"
               className="bg-yellow-400 py-3 text-xl font-[500] rounded-lg mt-4 hover:bg-yellow-500 ease-in duration-100"
             >
-              Create
+              Update
             </button>
           </div>
           <div className="p-4 flex justify-end">
@@ -101,4 +115,4 @@ function CreateTodoList({ onCreateOpen }) {
   );
 }
 
-export default CreateTodoList;
+export default UpdateTodoItem;

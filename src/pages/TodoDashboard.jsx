@@ -47,7 +47,7 @@ function TodoDashboard() {
         {todoList.length ? (
           renderedTodoList
         ) : (
-          <h1 className="mx-auto text-lg">No items 😟</h1>
+          <h1 className="text-2xl ">No items 😟</h1>
         )}
       </div>
       <Bottombar

@@ -9,8 +9,8 @@ import { toast } from 'react-toastify';
 // custom hooks
 import useTodoContext from '../../hooks/useTodoContext';
 
-function CreateTodoList({ onCreateOpen }) {
-  const { createList } = useTodoContext();
+function CreateTodoItem({ onCreateOpen, listId }) {
+  const { createItem } = useTodoContext();
   const [values, setValues] = useState({ title: '', dueDate: '' });
 
   const handleToggle = () => {
@@ -34,9 +34,9 @@ function CreateTodoList({ onCreateOpen }) {
       });
       return;
     } else {
-      createList(values);
+      createItem(listId, values);
       onCreateOpen();
-      toast.success('Created a list', {
+      toast.success('Created a item', {
         position: toast.POSITION.TOP_RIGHT,
         autoClose: 1000,
       });
@@ -55,7 +55,7 @@ function CreateTodoList({ onCreateOpen }) {
           className="flex flex-col max-w-[40%] w-full bg-white rounded-lg overflow-hidden border border-gray-300 z-20"
         >
           <div className="flex justify-between items-center p-4 border-b border-gray-300">
-            <h1 className="text-xl font-[500]">Add Todo List</h1>
+            <h1 className="text-xl font-[500]">Add Todo Item</h1>
             <RxCross1
               onClick={handleToggle}
               className="text-lg text-gray-600 cursor-pointer"
@@ -101,4 +101,4 @@ function CreateTodoList({ onCreateOpen }) {
   );
 }
 
-export default CreateTodoList;
+export default CreateTodoItem;
