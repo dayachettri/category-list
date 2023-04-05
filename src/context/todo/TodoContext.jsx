@@ -9,6 +9,43 @@ function TodoProvider({ children }) {
   const [currentCheckedItem, setCurrentCheckedItem] = useState(null);
   console.log(todoList);
 
+  const updateCompletedItemById = (id, listId, boolean) => {
+    const updatedList = todoList.map(list => {
+      if (list.id === listId) {
+        const updatedTodoItems = list.todoItems.map(todoItem => {
+          if (todoItem.id === id) {
+            return {
+              ...todoItem,
+              completed: boolean,
+            };
+          } else {
+            return todoItem;
+          }
+        });
+
+        return {
+          ...list,
+          todoItems: updatedTodoItems,
+        };
+      } else {
+        return list;
+      }
+    });
+
+    setTodoList(updatedList);
+  };
+
+  const updateCompletedListById = (id, boolean) => {
+    const updatedList = todoList.map(list => {
+      if (list.id === id) {
+        return { ...list, completed: boolean };
+      }
+      return list;
+    });
+
+    setTodoList(updatedList);
+  };
+
   const deleteItemById = itemId => {
     const listIndex = todoList.findIndex(list =>
       list.todoItems.some(item => item.id === itemId)
@@ -162,6 +199,8 @@ function TodoProvider({ children }) {
     updateCurrentCheckedItemAndList,
     updateItemById,
     deleteItemById,
+    updateCompletedListById,
+    updateCompletedItemById,
     currentCheckedList,
     currentCheckedItem,
     currentCheckedItemList,

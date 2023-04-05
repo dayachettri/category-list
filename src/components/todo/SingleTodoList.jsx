@@ -20,6 +20,7 @@ function SingleTodoList(props) {
     updateCurrentCheckedList,
     currentCheckedItem,
     currentCheckedItemList,
+    updateCompletedListById,
   } = useTodoContext();
   const { title, date, id, todoItems, checked, completed } = props;
   const [createTodoItemOpen, setCreateTodoItemOpen] = useState(false);
@@ -44,6 +45,10 @@ function SingleTodoList(props) {
     updateCurrentCheckedList(id, !checked);
   };
 
+  const handleCompletedChange = () => {
+    updateCompletedListById(id, !completed);
+  };
+
   const renderedTodoItems = todoItems.map(item => (
     <SingleTodoItem key={item.id} listId={id} {...item} />
   ));
@@ -60,7 +65,7 @@ function SingleTodoList(props) {
           <span className="text-lg">{title}</span>
           <Switch
             checked={completed}
-            // onChange={}
+            onChange={handleCompletedChange}
             inputProps={{ 'aria-label': 'controlled' }}
           />
         </div>

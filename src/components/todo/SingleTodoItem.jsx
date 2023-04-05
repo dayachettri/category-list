@@ -17,10 +17,15 @@ function SingleTodoItem({
   completed,
   listId,
 }) {
-  const { updateCurrentCheckedItemAndList } = useTodoContext();
+  const { updateCurrentCheckedItemAndList, updateCompletedItemById } =
+    useTodoContext();
 
   const handleCurrentCheckedItemAndList = () => {
     updateCurrentCheckedItemAndList(id, listId, !checked);
+  };
+
+  const handleCompletedItemChange = () => {
+    updateCompletedItemById(id, listId, !completed);
   };
 
   return (
@@ -36,7 +41,7 @@ function SingleTodoItem({
         </div>
         <Switch
           checked={completed}
-          // onChange={handleSwitchChange}
+          onChange={handleCompletedItemChange}
           inputProps={{ 'aria-label': 'controlled' }}
         />
       </div>
